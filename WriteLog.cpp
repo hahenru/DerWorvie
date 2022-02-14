@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+#include <stdio.h>
 #include "WriteLog.h"
 	
 namespace Kashashi{
@@ -16,9 +17,8 @@ writeLog_I::~writeLog_I(){
 writeLog_I::writeLog_I(){
     std::string file = ".\\log";
     this->fileName = file;
-    if(output_stream.is_open()){
-        this->output_stream.open(this->fileName,std::ios::app|std::ios::in|std::ios::out);
-        std::cout << "1次" << "\n";
+    if(!output_stream.is_open()){
+        this->output_stream.open(this->fileName,std::ios::app|std::ios::out|std::ios::in);
     }
     this->setLogLevel(debug|info);
 }
@@ -30,15 +30,14 @@ writeLog_I& writeLog_I::getNewLogger(){
 
 void writeLog_I::init(std::string file,char LV){
     this->fileName = file;
-    if(output_stream.is_open()){
-        this->output_stream.open(this->fileName,std::ios::app|std::ios::in|std::ios::out|std::ios::binary);
-        std::cout << "2次" << "\n";
+    if(!output_stream.is_open()){
+        this->output_stream.open(this->fileName,std::ios::app|std::ios::out|std::ios::in);
     }
     this->setLogLevel(LV);
 }
 
 void writeLog_I::log(std::string why,unsigned char LV){
-    if(output_stream.is_open()){
+    if(!output_stream.is_open()){
         std::cout << "error" << "\n";
     }
     if((this->logLV&LV)==LV){
@@ -66,7 +65,7 @@ void writeLog_I::log(std::string why,unsigned char LV){
                 Now_level = "不明記錄等級(未授權的紀錄)|";
                 break;
         }
-        this->output_stream << Now_level << why << "\n";
+        this->output_stream << std::hex <<Now_level << why << "\n";
         this->output_stream.flush();
         std::cout << Now_level << why << "\n";
     }

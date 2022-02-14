@@ -1,6 +1,6 @@
 CXX = g++
 CC = gcc
-code = -m64 -fexec-charset=utf-8 -fwide-exec-charset=utf-8
+code = -m64 -fexec-charset=utf-8 -fwide-exec-charset=utf-8 -std=c++2a
 
 .PHONY: DerWorvie.exe
 DerWorvie.exe: WriteLog.o
