@@ -33,10 +33,6 @@ public:
 protected:
 private:   
     writeLog_I();
-    /*
-    writeLog_I(const std::string dir, const std::string file);
-    */
-    //static writeLog_I* writeLog_selfptr;
     static char logLV;
     static std::string fileName;
     static std::ofstream output_stream;

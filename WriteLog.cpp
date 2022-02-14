@@ -16,17 +16,12 @@ writeLog_I::~writeLog_I(){
 writeLog_I::writeLog_I(){
     std::string file = ".\\log";
     this->fileName = file;
-    this->output_stream.open(this->fileName,std::ios::app|std::ios::in|std::ios::out);
+    if(output_stream.is_open()){
+        this->output_stream.open(this->fileName,std::ios::app|std::ios::in|std::ios::out);
+        std::cout << "1次" << "\n";
+    }
     this->setLogLevel(debug|info);
 }
-/*
-writeLog_I::writeLog_I(const std::string dir, const std::string file){
-    std::string output_file_name = dir + file;
-    this->fileName = output_file_name;
-    this->output_stream.open(output_file_name);
-    this->setLogLevel(debug|info);
-}
-*/
 
 writeLog_I& writeLog_I::getNewLogger(){
     static writeLog_I itWillBeJustOne;
@@ -35,12 +30,18 @@ writeLog_I& writeLog_I::getNewLogger(){
 
 void writeLog_I::init(std::string file,char LV){
     this->fileName = file;
-    this->output_stream.open(this->fileName);
+    if(output_stream.is_open()){
+        this->output_stream.open(this->fileName,std::ios::app|std::ios::in|std::ios::out|std::ios::binary);
+        std::cout << "2次" << "\n";
+    }
     this->setLogLevel(LV);
 }
 
 void writeLog_I::log(std::string why,unsigned char LV){
-    if((this->logLV^LV)==0){
+    if(output_stream.is_open()){
+        std::cout << "error" << "\n";
+    }
+    if((this->logLV&LV)==LV){
         std::string Now_level;
         switch(LV){
             case(this->debug):
@@ -66,6 +67,7 @@ void writeLog_I::log(std::string why,unsigned char LV){
                 break;
         }
         this->output_stream << Now_level << why << "\n";
+        this->output_stream.flush();
         std::cout << Now_level << why << "\n";
     }
 }
@@ -73,8 +75,15 @@ void writeLog_I::log(std::string why,unsigned char LV){
 void writeLog_I::setLogLevel(unsigned char LV){
     this->logLV = LV;
 }
-char writeLog_I::logLV = writeLog_I::debug;
-std::string writeLog_I::fileName = ".\\log";
+
+/*
+本條當初用PS製作的簽到表，上面的表格一成不變
+我總是不知道為什麼明明口頭表明需要的東西就好了
+卻還要明確的寫出來。
+*/
+char writeLog_I::logLV;// = writeLog_I::debug;
+std::string writeLog_I::fileName;// = ".\\log";
 std::ofstream writeLog_I::output_stream;
+
 }
 
