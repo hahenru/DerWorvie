@@ -12,16 +12,16 @@ Kashashi::writeLog_I& sign_in_form = Kashashi::writeLog_I::getNewLogger();
 筆順便。
 */
 __attribute__((constructor)) void init(){
-    Kashashi::writeLog_I::getNewLogger().init(".\\.log",Kashashi::writeLog_I::debug|Kashashi::writeLog_I::info);
+    Kashashi::writeLog_I::getNewLogger().init(".\\error.log",Kashashi::writeLog_I::debug|Kashashi::writeLog_I::info);
     std::string forFirstLogTest = "初始化完成";
-    Kashashi::writeLog_I::getNewLogger().log(forFirstLogTest, Kashashi::writeLog_I::info);
+    Kashashi::writeLog_I::getNewLogger().log(forFirstLogTest, 128);
 }
 /*
 離開的時候要記得你放置的物品，別忘了簽到
 */
 __attribute__((destructor)) void terminate(){
     std::string forLastLogTest = "我該怎麼逃離這鬼地方?";
-    Kashashi::writeLog_I::getNewLogger().log(forLastLogTest, Kashashi::writeLog_I::info);
+    Kashashi::writeLog_I::getNewLogger().log(forLastLogTest, 128);
 }
 
 /*
@@ -32,5 +32,11 @@ __attribute__((destructor)) void terminate(){
 距離今天2022/2/11過去了五年了
 */
 signed main(int argc, char** argv){
-
+    //此處應當保留參數處裡的函數
+    Kashashi::master GameMasterProcess;
+    while(true){}
+    return 0;
+    
+FATALHANDLE:
+    return 0;
 }

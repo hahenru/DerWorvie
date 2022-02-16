@@ -15,12 +15,16 @@ writeLog_I::~writeLog_I(){
 }
 
 writeLog_I::writeLog_I(){
-    std::string file = ".\\log";
+    std::string file = ".\\error.log";
     this->fileName = file;
     if(!output_stream.is_open()){
         this->output_stream.open(this->fileName,std::ios::app|std::ios::out|std::ios::in);
     }
+#ifdef hahenru_was_as_akashashi
+    this->setLogLevel(255);
+#else
     this->setLogLevel(debug|info);
+#endif
 }
 
 writeLog_I& writeLog_I::getNewLogger(){
@@ -33,7 +37,11 @@ void writeLog_I::init(std::string file,char LV){
     if(!output_stream.is_open()){
         this->output_stream.open(this->fileName,std::ios::app|std::ios::out|std::ios::in);
     }
+#ifdef hahenru_was_as_akashashi
+    this->setLogLevel(255);
+#else
     this->setLogLevel(LV);
+#endif
 }
 
 void writeLog_I::log(std::string why,unsigned char LV){
@@ -67,7 +75,6 @@ void writeLog_I::log(std::string why,unsigned char LV){
         }
         this->output_stream << std::hex <<Now_level << why << "\n";
         this->output_stream.flush();
-        std::cout << Now_level << why << "\n";
     }
 }
 	
@@ -80,8 +87,8 @@ void writeLog_I::setLogLevel(unsigned char LV){
 我總是不知道為什麼明明口頭表明需要的東西就好了
 卻還要明確的寫出來。
 */
-char writeLog_I::logLV;// = writeLog_I::debug;
-std::string writeLog_I::fileName;// = ".\\log";
+char writeLog_I::logLV;
+std::string writeLog_I::fileName;
 std::ofstream writeLog_I::output_stream;
 
 }

@@ -1,5 +1,5 @@
-#ifndef __WRITE_LOG_CLASS__
-#define __WRITE_LOG_CLASS__
+#ifndef WRITE_LOG_CLASS
+#define WRITE_LOG_CLASS
 
 #include <iostream>
 #include <fstream>
@@ -39,4 +39,4 @@ private:
 };
 
 }
-#endif//__WRITE_LOG_CLASS__
+#endif//WRITE_LOG_CLASS
