@@ -26,13 +26,7 @@ __attribute__((destructor)) void terminate(){
 signed main(int argc, char** argv){
     Kashashi::Master GameMasterProcess;
     GameMasterProcess.argvProcess(argc,argv);
-    while(true){
-        GameMasterProcess.updateWindowEvent();
-        GameMasterProcess.updateWindow();
-        if(GameMasterProcess.needShutdown()){
-            break;
-        }
-    }
+    while(GameMasterProcess.update()){}
     return 0;
     
 FATALHANDLE:

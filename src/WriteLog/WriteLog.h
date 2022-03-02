@@ -12,9 +12,9 @@ namespace Kashashi{
 這張紙從這個組織，組成以來就已經存在
 本條總是想盡辦法回收再利用，或許是為了省錢吧?
 */
-class writeLog_I{
+class WriteLog{
 public:
-    writeLog_I(writeLog_I const& obj) = delete;
+    WriteLog(WriteLog const& obj) = delete;
     static const unsigned char none = 0; //0x00000000
     static const unsigned char debug= 1; //0x00000001
     static const unsigned char info = 2; //0x00000010
@@ -27,12 +27,12 @@ public:
 
     void init(std::string file,char LV);
     void log(std::string why,unsigned char LV);
-    static writeLog_I& getNewLogger();
-    virtual ~writeLog_I();
+    static WriteLog& getNewLogger();
+    virtual ~WriteLog();
     void setLogLevel(unsigned char LV);
 protected:
 private:   
-    writeLog_I();
+    WriteLog();
     static char logLV;
     static std::string fileName;
     static std::ofstream output_stream;

@@ -10,11 +10,11 @@ namespace Kashashi{
 總有人說著總哪裡來就從哪裡回去
 或許有天我可以把它種進土裡面?
 */
-writeLog_I::~writeLog_I(){
+WriteLog::~WriteLog(){
     this->output_stream.close();
 }
 
-writeLog_I::writeLog_I(){
+WriteLog::WriteLog(){
     std::string file = ".\\error.log";
     this->fileName = file;
     if(!output_stream.is_open()){
@@ -27,12 +27,12 @@ writeLog_I::writeLog_I(){
 #endif
 }
 
-writeLog_I& writeLog_I::getNewLogger(){
-    static writeLog_I itWillBeJustOne;
+WriteLog& WriteLog::getNewLogger(){
+    static WriteLog itWillBeJustOne;
     return itWillBeJustOne;
 }
 
-void writeLog_I::init(std::string file,char LV){
+void WriteLog::init(std::string file,char LV){
     this->fileName = file;
     if(!output_stream.is_open()){
         this->output_stream.open(this->fileName,std::ios::app|std::ios::out|std::ios::in);
@@ -44,7 +44,7 @@ void writeLog_I::init(std::string file,char LV){
 #endif
 }
 
-void writeLog_I::log(std::string why,unsigned char LV){
+void WriteLog::log(std::string why,unsigned char LV){
     if(!output_stream.is_open()){
         std::cout << "error" << "\n";
     }
@@ -78,7 +78,7 @@ void writeLog_I::log(std::string why,unsigned char LV){
     }
 }
 	
-void writeLog_I::setLogLevel(unsigned char LV){
+void WriteLog::setLogLevel(unsigned char LV){
     this->logLV = LV;
 }
 
@@ -87,9 +87,9 @@ void writeLog_I::setLogLevel(unsigned char LV){
 我總是不知道為什麼明明口頭表明需要的東西就好了
 卻還要明確的寫出來。
 */
-char writeLog_I::logLV;
-std::string writeLog_I::fileName;
-std::ofstream writeLog_I::output_stream;
+char WriteLog::logLV;
+std::string WriteLog::fileName;
+std::ofstream WriteLog::output_stream;
 
 }
 

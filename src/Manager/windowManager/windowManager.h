@@ -6,6 +6,7 @@
 #include "..\..\..\include\GLFW\glfw3.h"
 #define GLFW_EXPOSE_NATIVE_WIN32
 #include "..\..\..\include\GLFW\glfw3native.h"
+#include "..\..\WriteLog\WriteLog.h"
 #include <GL\gl.h>
 #include <string>
 
@@ -17,6 +18,7 @@ private:
     GLFWmonitor* primeMonitor;
     bool fullScreenFlag = true;
     void* loggerCallback;
+    static short glfwInitCount;
 public:
     WindowManager();
     ~WindowManager();
@@ -24,6 +26,9 @@ public:
     void updateScreen();
     void event();
     bool windowShouldBeClose();
+    void windowInit();
+    void glfwSetting();
+    void processInput();
 };
 
 }

@@ -1,4 +1,5 @@
 #include "windowManager.h"
+#include "..\..\WriteLog\WriteLog.h"
 #include "..\..\..\include\GLAD\glad.h"
 #include "..\..\..\include\GLFW\glfw3.h"
 #include "..\..\..\include\GLFW\glfw3native.h"
@@ -9,18 +10,38 @@
 
 namespace Kashashi{
 
+short WindowManager::glfwInitCount = 0;
+
 WindowManager::WindowManager(){
-    if (!glfwInit()){
-    //初始化失敗
+
+}
+
+WindowManager::~WindowManager(){
+    if(glfwInitCount > 0){
+        glfwTerminate();
     }
+}
+void WindowManager::windowInit(){
+    if(glfwInitCount > 0){
+        return;
+    }
+    if(!glfwInit()){
+        WriteLog::getNewLogger().log(std::string("glfw初始化錯誤"),WriteLog::error);
+    }
+    else{
+        glfwInitCount++;
+    }
+}
+
+void WindowManager::glfwSetting(){
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-    glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
-    gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+    glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
     primeMonitor = glfwGetPrimaryMonitor();
-    window = glfwCreateWindow(600, 800, "測試中", nullptr, nullptr);
+    window = glfwCreateWindow(1920, 1080, "測試中", primeMonitor, nullptr);
     glfwMakeContextCurrent(window);
+    gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
     int width, height;
     glfwGetFramebufferSize(window, &width, &height);
     glViewport(0, 0, width, height);
@@ -28,11 +49,6 @@ WindowManager::WindowManager(){
         //張大你的眼睛，你啥都沒看到對吧?
         //這他媽就是問題所在
     }
-    //setFullScreen(true);
-}
-
-WindowManager::~WindowManager(){
-    glfwTerminate();
 }
 
 void WindowManager::setFullScreen(bool needFull){
@@ -53,5 +69,9 @@ bool WindowManager::windowShouldBeClose(){
     return glfwWindowShouldClose(window);
 }
 
+void WindowManager::processInput(){
+    if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+        glfwSetWindowShouldClose(window, true);
+}
 
 }

@@ -11,9 +11,8 @@ private:
 public:
     Master();
     void argvProcess(int argc, char** argv);
-    void updateWindowEvent();
-    void updateWindow();
-    bool needShutdown();
+    bool update();
+
 };
 
 }
